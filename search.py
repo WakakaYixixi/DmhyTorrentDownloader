@@ -3,11 +3,11 @@ from bs4 import BeautifulSoup
 from PySide6.QtWidgets import QListWidgetItem
 
 
-class searchDmhyXml:
+class SearchDmhyXml:
 
     def __init__(self, searchStr):
         self.searchStr = searchStr
-        self.searchResult: list[searchResult] = []
+        self.searchResult: list[SearchResult] = []
 
     def doSearch(self):
         try:
@@ -22,14 +22,14 @@ class searchDmhyXml:
             bs = BeautifulSoup(r.text, 'xml')
             datas = bs.find_all('item')
             for data in datas:
-                result = searchResult()
+                result = SearchResult()
                 result.title = (str)(data.find('title')).replace(
                     '<title>', '').replace('</title>', '')
                 result.torrent = (str)(data.find('enclosure').get('url'))
                 self.searchResult.append(result)
 
 
-class searchResult:
+class SearchResult:
 
     def __init__(self):
         self.title = ''
