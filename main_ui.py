@@ -15,9 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLineEdit, QListView,
-    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
-    QSizePolicy, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
+    QListView, QListWidget, QListWidgetItem, QMainWindow,
+    QPushButton, QSizePolicy, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,10 +28,8 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(0, 0))
-        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_3 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.deleteButton = QPushButton(self.centralwidget)
@@ -52,7 +50,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.saveList)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
+        self.horizontalLayout_3.addLayout(self.verticalLayout_2)
 
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -87,10 +85,38 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
+        self.InfoLabel = QLabel(self.centralwidget)
+        self.InfoLabel.setObjectName(u"InfoLabel")
+        self.InfoLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.InfoLabel)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.selectAllButton = QPushButton(self.centralwidget)
+        self.selectAllButton.setObjectName(u"selectAllButton")
+
+        self.horizontalLayout_2.addWidget(self.selectAllButton)
+
+        self.selectNoneButton = QPushButton(self.centralwidget)
+        self.selectNoneButton.setObjectName(u"selectNoneButton")
+
+        self.horizontalLayout_2.addWidget(self.selectNoneButton)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
+
         self.searchResultList = QListWidget(self.centralwidget)
         self.searchResultList.setObjectName(u"searchResultList")
 
         self.verticalLayout.addWidget(self.searchResultList)
+
+        self.copyLabel = QLabel(self.centralwidget)
+        self.copyLabel.setObjectName(u"copyLabel")
+        self.copyLabel.setEnabled(True)
+        self.copyLabel.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.copyLabel)
 
         self.copyButton = QPushButton(self.centralwidget)
         self.copyButton.setObjectName(u"copyButton")
@@ -98,10 +124,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.copyButton)
 
 
-        self.horizontalLayout_2.addLayout(self.verticalLayout)
-
-
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout_3.addLayout(self.verticalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -115,6 +138,10 @@ class Ui_MainWindow(object):
         self.deleteButton.setText(QCoreApplication.translate("MainWindow", u"\u5220\u9664\u8bb0\u5f55", None))
         self.searchButton.setText(QCoreApplication.translate("MainWindow", u"\u641c\u7d22", None))
         self.saveButton.setText(QCoreApplication.translate("MainWindow", u"\u4fdd\u5b58\u8bb0\u5f55", None))
+        self.InfoLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.selectAllButton.setText(QCoreApplication.translate("MainWindow", u"\u5168\u90e8\u9009\u62e9", None))
+        self.selectNoneButton.setText(QCoreApplication.translate("MainWindow", u"\u5168\u90e8\u53d6\u6d88", None))
+        self.copyLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.copyButton.setText(QCoreApplication.translate("MainWindow", u"\u590d\u5236\u78c1\u529b\u94fe\u63a5", None))
     # retranslateUi
 

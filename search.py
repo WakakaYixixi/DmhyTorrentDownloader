@@ -9,13 +9,14 @@ class SearchDmhyXml:
         self.searchStr = searchStr
         self.searchResult: list[SearchResult] = []
 
-    def doSearch(self):
+    def doSearch(self) -> bool:
         try:
             r = requests.get('https://dmhy.org/topics/rss/rss.xml?keyword=' +
                              self.searchStr +
                              '&sort_id=0&team_id=0&order=date-desc')
         except requests.RequestException:
             print('exception')
+            return False
         else:
             self.searchResult.clear()
             r.encoding = 'utf-8'
@@ -27,6 +28,7 @@ class SearchDmhyXml:
                     '<title>', '').replace('</title>', '')
                 result.torrent = (str)(data.find('enclosure').get('url'))
                 self.searchResult.append(result)
+            return True
 
 
 class SearchResult:
