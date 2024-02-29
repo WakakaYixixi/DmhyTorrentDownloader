@@ -99,7 +99,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    app.setQuitOnLastWindowClosed(False)
+    app.setQuitOnLastWindowClosed(True)
     win = MainWindow()
     win.setWindowTitle("DMHY_torrent_Downloader")
     win.setWindowIcon(QtGui.QIcon("icon.png"))
