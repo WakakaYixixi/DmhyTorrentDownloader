@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QListWidgetItem
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QStringListModel
+from PySide6.QtCore import QThread, Signal
 
 from main_ui import Ui_MainWindow
 
@@ -37,25 +38,48 @@ class MainWindow(QMainWindow):
         self.ui.saveList.setModel(self.listModel)
         self.ui.saveList.doubleClicked.connect(self.onDoubleClicked)
 
+        self.isSearching = False
+
     def getResultByWidget(self, widget: QListWidgetItem) -> SearchResult:
         for i in self.searchModule.searchResult:
             if (i.widget == widget):
                 return i
         return None
 
+    # def search(self):
+    #     print('search')
+    #     self.ui.searchResultList.clear()
+
+    #     self.searchModule.searchStr = self.ui.searchInput.text()
+    #     self.searchModule.doSearch()
+
+    #     for i in self.searchModule.searchResult:
+    #         qitem = QListWidgetItem()
+    #         qitem.setText(i.title)
+    #         qitem.setFlags(qitem.flags() | Qt.ItemIsUserCheckable)
+    #         qitem.setCheckState(Qt.Checked)
+    #         i.widget = qitem
+    #         self.ui.searchResultList.addItem(qitem)
+
     def search(self):
-        print('search')
-        self.ui.searchResultList.clear()
+        if not self.isSearching:
+            self.isSearching = True
+            self.ui.searchResultList.clear()
+            tempItem = QListWidgetItem("搜索中…")
+            self.ui.searchResultList.addItem(tempItem)
 
-        self.searchModule.searchStr = self.ui.searchInput.text()
-        self.searchModule.doSearch()
+            self.searchThread = SearchThread(self.searchModule)
+            self.searchThread.finished.connect(self.onSearchFinished)
+            self.searchModule.searchStr = self.ui.searchInput.text()
+            self.searchThread.start()
 
-        for i in self.searchModule.searchResult:
-            qitem = QListWidgetItem()
-            qitem.setText(i.title)
+    def onSearchFinished(self, searchResult):
+        self.isSearching = False
+        self.ui.searchResultList.clear()  # 清除“搜索中…”项
+        for i in searchResult:
+            qitem = QListWidgetItem(i.title)
             qitem.setFlags(qitem.flags() | Qt.ItemIsUserCheckable)
             qitem.setCheckState(Qt.Checked)
-            i.widget = qitem
             self.ui.searchResultList.addItem(qitem)
 
     def save(self):
@@ -95,6 +119,18 @@ class MainWindow(QMainWindow):
         print(f"Double clicked on {itemText}")
         self.ui.searchInput.setText(itemText)
         self.search()
+
+
+class SearchThread(QThread):
+    finished = Signal(list)  # 使用PySide6的Signal
+
+    def __init__(self, searchModule):
+        super(SearchThread, self).__init__()
+        self.searchModule = searchModule
+
+    def run(self):
+        self.searchModule.doSearch()
+        self.finished.emit(self.searchModule.searchResult)
 
 
 if __name__ == '__main__':
